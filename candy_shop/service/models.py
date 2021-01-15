@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -43,6 +44,15 @@ class Feedback(models.Model):
                                 null=True, related_name='feedbacks')
 
     def __str__(self):
-        return self.author + ' ' + self.service.name
+        return self.author
 
 
+class Order(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    service = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date = models.DateField()
+    master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.service.name
